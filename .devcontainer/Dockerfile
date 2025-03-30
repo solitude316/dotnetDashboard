@@ -1,6 +1,11 @@
 FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0
 
 ENV ASPNETCORE_URLS=http://localhost:8080
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+RUN nvm install 22
+
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
