@@ -2,7 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "type": "npm",
+            "script": "build",
+            "path": "src/CoreUI",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "label": "build_ui",
+            "detail": "vite build"
+        },
+        {
             "label": "build",
+            "dependsOn": "build_ui",
+            "dependsOrder": "sequence",
             "command": "dotnet",
             "type": "process",
             "args": [
