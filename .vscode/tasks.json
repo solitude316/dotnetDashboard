@@ -15,7 +15,19 @@
         },
         {
             "label": "build",
-            "dependsOn": "build_ui",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Dashboard.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build_all",
+            "dependsOn":["build_ui"],
             "dependsOrder": "sequence",
             "command": "dotnet",
             "type": "process",
