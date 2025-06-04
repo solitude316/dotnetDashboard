@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <TargetFramework>net9.0</TargetFramework>
+    <!--<AspNetVersion>8.0.8</AspNetVersion>
+    <SystemExtensionVersion>8.0.0</SystemExtensionVersion>
+    <EntityFramworkCoreVersion>8.0.10</EntityFramworkCoreVersion>
+    <VSCodeGeneratorVersion>8.0.3</VSCodeGeneratorVersion>-->
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.4" />
+  </ItemGroup>
+</Project>

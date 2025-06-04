@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Core;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

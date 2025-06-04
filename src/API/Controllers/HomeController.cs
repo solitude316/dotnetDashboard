@@ -17,11 +17,4 @@ public class HomeController : ControllerBase
     {
         return Ok("Hello, World!");
     }
-
-    [HttpGet("hello2")]
-    public IActionResult Get2()
-    {
-        return Ok("Hello, World 2!");
-    }
-
 }
