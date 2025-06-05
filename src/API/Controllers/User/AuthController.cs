@@ -37,12 +37,11 @@ public class AuthController : ControllerBase
 
         if (!validationResult.IsValid)
         {
-            Dictionary<string, string> errors = new Dictionary<string, string>();
             foreach (var error in validationResult.Errors)
             {
-                errors[error.PropertyName] = error.ErrorMessage;
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
             }
-            return BadRequest(errors);
+            return BadRequest(ModelState);
         }
 
         return Ok("User registered successfully");
