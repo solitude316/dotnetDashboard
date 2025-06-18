@@ -59,7 +59,6 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-
         try
         {
             int gender = (request.Gender == "M") ? 1 : 2;

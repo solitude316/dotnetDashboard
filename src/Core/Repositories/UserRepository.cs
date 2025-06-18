@@ -30,8 +30,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateAsync(User user)
     {
-        _context.Users.Add(user);
-        int result = _context.SaveChanges();
+        await _context.Users.AddAsync(user);
+        int result = await _context.SaveChangesAsync();
         return user;
     }
 
