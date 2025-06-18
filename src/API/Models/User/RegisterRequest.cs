@@ -12,7 +12,6 @@ public class RegisterRequest
     [JsonPropertyName("last_name")]
     public string LastName { get; set; } = string.Empty;
 
-    
     [MinLength(1)]
     [MaxLength(1)]
     [JsonPropertyName("gender")]

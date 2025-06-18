@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Otter.API.Models.User;
 using Otter.API.Validator.User;
 using Otter.Core.Entities;
@@ -13,10 +14,14 @@ namespace Otter.API.Controllers.User;
 public class AuthController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
-    public AuthController(IUserRepository userRepository)
+
+    private ILogger<AuthController> _logger;
+    public AuthController(ILogger<AuthController> logger, IUserRepository userRepository)
     {
         // Initialize the user repository if needed
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>
@@ -57,12 +62,13 @@ public class AuthController : ControllerBase
 
         try
         {
+            int gender = (request.Gender == "M") ? 1 : 2;
             var user = new Otter.Core.Entities.User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
-                Gender = request.Gender,
+                Gender = gender,
                 Birthday = request.Birthday,
                 PhoneNumber = request.PhoneNumber,
                 Password = request.Password

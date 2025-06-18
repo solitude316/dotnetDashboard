@@ -18,14 +18,14 @@ public class User : BaseEntity
 
     [Required]
     [Column("gender", TypeName = "varchar(1)0")]
-    public string Gender { get; set; } = string.Empty;
+    public int Gender { get; set; } = 0;
 
     [Column("birthday", TypeName = "date")]
     public DateOnly? Birthday { get; set; }
 
     [Required]
-    [Column("status", TypeName = "varchar(3)")]
-    public string Status { get; set; } = "ACT";
+    [Column("status", TypeName = "smallint")]
+    public Int16 Status { get; set; } = 1;
 
     [Required]
     [Column("email", TypeName = "varchar(100)")]
@@ -39,11 +39,11 @@ public class User : BaseEntity
     [Required]
     [Column("password", TypeName = "varchar(256)")]
     public string Password
-    { 
+    {
         get => _passwordHash;
         set => _passwordHash = HashPassword(value);
     }
-    
+
     public static string HashPassword(string password)
     {
         using var sha256 = SHA256.Create();
@@ -59,4 +59,16 @@ public class User : BaseEntity
         var hash = sha256.ComputeHash(bytes);
         return _passwordHash == Convert.ToBase64String(hash);
     }
+
+    public static string getStatusText(int status)
+    {
+        return status switch
+        {
+            1 => "Active",
+            2 => "Inactive",
+            3 => "Banned",
+            _ => "Unknown"
+        };
+    }
+
 }
