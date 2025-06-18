@@ -18,7 +18,7 @@ public class User : BaseEntity
 
     [Required]
     [Column("gender", TypeName = "varchar(1)0")]
-    public string gender { get; set; } = string.Empty;
+    public string Gender { get; set; } = string.Empty;
 
     [Column("birthday", TypeName = "date")]
     public DateOnly? Birthday { get; set; }
@@ -34,16 +34,22 @@ public class User : BaseEntity
     [Column("phone_number", TypeName = "varchar(15)")]
     public string? PhoneNumber { get; set; }
 
+    private string _passwordHash = string.Empty;
+
     [Required]
     [Column("password", TypeName = "varchar(256)")]
-    public string PasswordHash { get; set; } = string.Empty;
+    public string Password
+    { 
+        get => _passwordHash;
+        set => _passwordHash = HashPassword(value);
+    }
     
-    public void SetPassword(string password)
+    public static string HashPassword(string password)
     {
         using var sha256 = SHA256.Create();
         var bytes = Encoding.UTF8.GetBytes(password);
         var hash = sha256.ComputeHash(bytes);
-        PasswordHash = Convert.ToBase64String(hash);
+        return Convert.ToBase64String(hash);
     }
 
     public bool VerifyPassword(string password)
@@ -51,6 +57,6 @@ public class User : BaseEntity
         using var sha256 = SHA256.Create();
         var bytes = Encoding.UTF8.GetBytes(password);
         var hash = sha256.ComputeHash(bytes);
-        return PasswordHash == Convert.ToBase64String(hash);
+        return _passwordHash == Convert.ToBase64String(hash);
     }
 }

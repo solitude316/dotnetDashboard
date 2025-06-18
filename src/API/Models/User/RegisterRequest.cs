@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace API.Models.User;
+namespace Otter.API.Models.User;
 
 public class RegisterRequest
 {
@@ -11,6 +11,12 @@ public class RegisterRequest
 
     [JsonPropertyName("last_name")]
     public string LastName { get; set; } = string.Empty;
+
+    
+    [MinLength(1)]
+    [MaxLength(1)]
+    [JsonPropertyName("gender")]
+    public string Gender { get; set; } = "";
 
     [JsonPropertyName("birthday")]
     public DateOnly? Birthday { get; set; } = null;
