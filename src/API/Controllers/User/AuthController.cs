@@ -62,7 +62,7 @@ public class AuthController : ControllerBase
         try
         {
             int gender = (request.Gender == "M") ? 1 : 2;
-            var user = new Otter.Core.Entities.User
+            var user = new UserEntity
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,

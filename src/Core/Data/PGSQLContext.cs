@@ -13,7 +13,7 @@ public class PGSQLContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(dob =>
+        modelBuilder.Entity<UserEntity>(dob =>
         {
             dob.ToTable("users");
             dob.HasKey(u => u.Id);
@@ -45,5 +45,5 @@ public class PGSQLContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    public DbSet<User> Users { get; set; } = default!;
+    public DbSet<UserEntity> Users { get; set; } = default!;
 }

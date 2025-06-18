@@ -4,10 +4,10 @@ namespace Otter.Core.Interfaces.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> GetByIdAsync(Guid id);
-    Task<User?> GetByEmailAsync(string email);
-    Task<User?> GetByCredentialsAsync(string email, string password);
-    Task<User> CreateAsync(User user);
-    Task UpdateAsync(User user);
+    Task<UserEntity?> GetByIdAsync(Guid id);
+    Task<UserEntity?> GetByEmailAsync(string email);
+    Task<UserEntity?> GetByCredentialsAsync(string email, string password);
+    Task<UserEntity> CreateAsync(UserEntity user);
+    Task UpdateAsync(UserEntity user);
     Task DeleteAsync(Guid id);
 }

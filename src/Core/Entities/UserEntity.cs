@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Otter.Core.Entities;
 
-public class User : BaseEntity
+public class UserEntity : BaseEntity
 {
     [Required]
     [Column("first_name", TypeName = "varchar(100)")]
