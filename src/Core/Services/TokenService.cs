@@ -1,9 +1,7 @@
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 
 
@@ -32,39 +30,41 @@ public class TokenService : ITokenService
 
     public string GenerateAccessToken(UserEntity user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        throw new NotImplementedException("GenerateAccessToken method is not implemented yet.");
+        // var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+        // var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-            new Claim(ClaimTypes.Email, user.Email),
-            // new Claim(ClaimTypes.Role, user.Role),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat,
-                new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
-                ClaimValueTypes.Integer64)
-        };
+        // var claims = new[]
+        // {
+        //     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        //     new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+        //     new Claim(ClaimTypes.Email, user.Email),
+        //     // new Claim(ClaimTypes.Role, user.Role),
+        //     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //     new Claim(JwtRegisteredClaimNames.Iat,
+        //         new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+        //         ClaimValueTypes.Integer64)
+        // };
 
-        var token = new JwtSecurityToken(
-            issuer: _issuer,
-            audience: _audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(30), // Set token expiration time
-            signingCredentials: credentials
-        );
+        // var token = new JwtSecurityToken(
+        //     issuer: _issuer,
+        //     audience: _audience,
+        //     claims: claims,
+        //     expires: DateTime.UtcNow.AddMinutes(30), // Set token expiration time
+        //     signingCredentials: credentials
+        // );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        // return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public string GenerateRefreshToken()
     {
-        // Implementation for generating a refresh token
-        var randomBytes = new byte[64];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomBytes);
-        return Convert.ToBase64String(randomBytes);
+        throw new NotImplementedException("GenerateRefreshToken method is not implemented yet.");
+        // // Implementation for generating a refresh token
+        // var randomBytes = new byte[64];
+        // using var rng = RandomNumberGenerator.Create();
+        // rng.GetBytes(randomBytes);
+        // return Convert.ToBase64String(randomBytes);
     }
 
     public bool ValidateRefreshToken(string refreshToken)
@@ -76,35 +76,36 @@ public class TokenService : ITokenService
 
     public UserEntity GetUserFromToken(string token)
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_secretKey);
+        throw new NotImplementedException("GetUserFromToken method is not implemented yet.");
+        // var tokenHandler = new JwtSecurityTokenHandler();
+        // var key = Encoding.UTF8.GetBytes(_secretKey);
 
-        try
-        {
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidIssuer = _issuer,
-                ValidateAudience = true,
-                ValidAudience = _audience,
-                ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+        // try
+        // {
+        //     tokenHandler.ValidateToken(token, new TokenValidationParameters
+        //     {
+        //         ValidateIssuerSigningKey = true,
+        //         IssuerSigningKey = new SymmetricSecurityKey(key),
+        //         ValidateIssuer = true,
+        //         ValidIssuer = _issuer,
+        //         ValidateAudience = true,
+        //         ValidAudience = _audience,
+        //         ClockSkew = TimeSpan.Zero
+        //     }, out SecurityToken validatedToken);
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            
-            return new UserEntity
-            {
-                Id = Guid.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value),
-                Email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value,
-                // Role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value
-            };
-        }
-        catch
-        {
-            return null;
-        }
+        //     var jwtToken = (JwtSecurityToken)validatedToken;
+
+        //     return new UserEntity
+        //     {
+        //         Id = Guid.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value),
+        //         Email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value,
+        //         // Role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value
+        //     };
+        // }
+        // catch
+        // {
+        //     return null;
+        // }
     }
 
     public DateTime GetTokenExpiration(string token)

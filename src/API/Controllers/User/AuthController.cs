@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Otter.API.Models.User;
 using Otter.API.Validator.User;
 using Otter.Core.Entities;
-using Otter.Core.Interfaces.Repositories;
 using Otter.Core.Repositories;
 using RegisterRequest = Otter.API.Models.User.RegisterRequest;
 using LoginRequest = Otter.API.Models.User.LoginRequest;
@@ -72,9 +71,9 @@ public class AuthController : ControllerBase
 
             var result = await _userRepository.CreateAsync(user);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            // Log the exception (not implemented here)
+            _logger.LogError(exception, "An error occurred while registering the user: {ErrorMessage}", exception.Message);
             return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
         }
 
