@@ -1,6 +1,6 @@
 using Otter.Core.Entities;
 
-namespace Otter.Core.Interfaces.Repositories;
+namespace Otter.Core.Repositories;
 
 public interface IUserRepository
 {

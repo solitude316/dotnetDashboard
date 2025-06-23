@@ -1,4 +1,3 @@
-using Otter.Core.Interfaces.Repositories;
 using Otter.Core.Entities;
 using Otter.Core.Data;
 

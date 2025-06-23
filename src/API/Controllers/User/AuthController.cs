@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Otter.API.Models.User;
@@ -6,6 +7,8 @@ using Otter.API.Validator.User;
 using Otter.Core.Entities;
 using Otter.Core.Interfaces.Repositories;
 using Otter.Core.Repositories;
+using RegisterRequest = Otter.API.Models.User.RegisterRequest;
+using LoginRequest = Otter.API.Models.User.LoginRequest;
 
 namespace Otter.API.Controllers.User;
 
@@ -39,7 +42,7 @@ public class AuthController : ControllerBase
     /// Registers a new user.
     /// </summary>
     /// <returns>A string indicating the registration status.</returns>
-    [HttpPost("register")]
+    [HttpPost("regist")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest request)
     {
         if (request == null)
@@ -61,15 +64,9 @@ public class AuthController : ControllerBase
 
         try
         {
-            int gender = (request.Gender == "M") ? 1 : 2;
             var user = new UserEntity
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
                 Email = request.Email,
-                Gender = gender,
-                Birthday = request.Birthday,
-                PhoneNumber = request.PhoneNumber,
                 Password = request.Password
             };
 
@@ -82,5 +79,37 @@ public class AuthController : ControllerBase
         }
 
         return Ok("User registered successfully");
+    }
+
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest("Invalid_request");
+        }
+
+        RegisterValidator validator = new RegisterValidator();
+        var validationResult = await validator.ValidateAsync(new Models.User.RegisterRequest
+        {
+            Email = request.Email,
+            Password = request.Password
+        });
+
+        if (!validationResult.IsValid)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            }
+            return BadRequest(ModelState);
+        }
+
+
+
+
+
+
+
+        return Ok("Login successful");
     }
 }

@@ -1,7 +1,6 @@
 using Otter.Core.Entities;
 using Otter.Core.Repositories;
-using Otter.Core.Interfaces.Repositories;
-using Otter.Core.Interfaces.Services;
+using Otter.Core.Services;
 
 namespace Otter.Core.Services;
 
@@ -13,9 +12,9 @@ public class AuthService : IAuthService
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
-    public async Task<User> LoginAsync(string account, string password)
+    public async Task<UserEntity> LoginAsync(string account, string password)
     {
-        User user = new User
+        UserEntity user = new UserEntity
         {
             Id = Guid.NewGuid(),
             Email = account
@@ -28,7 +27,7 @@ public class AuthService : IAuthService
         return user;
     }
 
-    public Task<User> LogoutAsync(User user)
+    public Task<UserEntity> LogoutAsync(UserEntity user)
     {
         throw new NotImplementedException("Method not implemented.");
     }
