@@ -58,7 +58,11 @@ public class RegistController : ControllerBase
         catch (UserIsExitedException ex)
         {
             _logger.LogWarning(ex, "User registration failed: {ErrorMessage}", ex.Message);
-            return BadRequest("User already exists.");
+            return BadRequest(new
+            {
+                Code = "00001",
+                Message = ex.Message
+            });
         }
         catch (Exception exception)
         {
@@ -66,6 +70,10 @@ public class RegistController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
         }
 
-        return Ok("User registered successfully");
+        return Ok(new
+        {
+            Code = "00000",
+            Message = "Registration successful"
+        });
     }
 }
