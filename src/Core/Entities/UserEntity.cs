@@ -17,8 +17,8 @@ public class UserEntity : BaseEntity
     public string LastName { get; set; } = string.Empty;
 
     [Required]
-    [Column("gender", TypeName = "varchar(1)0")]
-    public int Gender { get; set; } = 0;
+    [Column("gender", TypeName = "varchar(1)")]
+    public string Gender { get; set; } = "0"; // Default
 
     [Column("birthday", TypeName = "date")]
     public DateOnly? Birthday { get; set; }
@@ -60,6 +60,17 @@ public class UserEntity : BaseEntity
         return _passwordHash == Convert.ToBase64String(hash);
     }
 
+    public static string getGenderText(int gender)
+    {
+        return gender switch
+        {
+            1 => "Male",
+            2 => "Female",
+            3 => "Other",
+            _ => "Unknown"
+        };
+    }
+
     public static string getStatusText(int status)
     {
         return status switch
@@ -70,5 +81,4 @@ public class UserEntity : BaseEntity
             _ => "Unknown"
         };
     }
-
 }

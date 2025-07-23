@@ -3,9 +3,9 @@ using Otter.API.Models.User;
 
 namespace Otter.API.Validator.User;
 
-public class RegisterValidator : AbstractValidator<RegisterRequest>
+public class RegistValidator : AbstractValidator<RegisterRequest>
 {
-    public RegisterValidator()
+    public RegistValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")

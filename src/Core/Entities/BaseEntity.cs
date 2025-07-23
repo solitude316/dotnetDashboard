@@ -20,7 +20,7 @@ public abstract class BaseEntity
     }
 
     private DateTime? _update_date;
-    [Column("update_on", TypeName = "timestamptz")]
+    [Column("update_date", TypeName = "timestamptz")]
     public DateTime? UpdateOn
     {
         get => _update_date;

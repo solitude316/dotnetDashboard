@@ -2,12 +2,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Serilog;
 using Otter.Core.Repositories;
 using Otter.Core.Services;
 using Otter.API.Extensions;
 using Otter.Core.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Using serilog for logging
+builder.Host.UseSerilog((context, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .WriteTo.Console()
+    .WriteTo.File(
+        path: "logs/log-.txt",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 30,
+        fileSizeLimitBytes: 1_000_000_000,
+        rollOnFileSizeLimit: true
+    )
+);
 
 builder.Services.AddControllers();
 

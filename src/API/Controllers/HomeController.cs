@@ -14,12 +14,4 @@ public class HomeController : ControllerBase
     {
         _authService = authService;
     }
-
-    [HttpGet("hello")]
-    public async Task<IActionResult> Get()
-    {
-        var user = await _authService.LoginAsync("testUser", "testPassword");
-
-        return Ok("Hello, World!");
-    }
 }

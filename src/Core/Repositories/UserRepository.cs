@@ -1,5 +1,6 @@
 using Otter.Core.Entities;
 using Otter.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Otter.Core.Repositories;
 
@@ -17,9 +18,16 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException("Method not implemented.");
     }
 
-    public Task<UserEntity?> GetByEmailAsync(string email)
+    public async Task<UserEntity?> GetByEmailAsync(string email)
     {
-        throw new NotImplementedException("Method not implemented.");
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new ArgumentNullException(nameof(email), "Email cannot be null or empty.");
+        }
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.CompareTo(email) == 0);
+
+        return user;
     }
 
     public Task<UserEntity?> GetByCredentialsAsync(string email, string password)
