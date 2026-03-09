@@ -1,28 +1,14 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dashboard.Entities;
 
-
-[Table("users")]
 public class User : BaseEntity
 {
-    [Required]
-    [Column("first_name")]
-    [MaxLength(100)]
-    public string? FirstName { get; set; }
+    public string? first_name { get; set; }
 
-    [Required]
-    [Column("last_name")]
-    [MaxLength(100)]
-    public string? LastName { get; set; }
+    public string? last_name { get; set; }
 
-    [Required]
-    [Column("gender")]
-    public Dashboard.Enums.GenderEnum Gender { get; set; }
+    public Dashboard.Enums.GenderEnum gender { get; set; }
 
-    [Required]
-    [Column("birthday")]
-    public DateTime Birthday { get; set; }
+    public DateOnly birthday { get; set; }
     
 }

@@ -1,4 +1,3 @@
-using System.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Dashboard.Repositories;
@@ -22,7 +21,18 @@ public class UserController : ControllerBase
     [HttpPost("add")]
     public async Task<IActionResult> AddUser([FromBody] User user)
     {
-        var addedUser = await _userRepository.Add(user);
+        var addedUser = await _userRepository.AddAsync(user);
         return Ok(addedUser);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
+        var user = await _userRepository.GetById(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+        return Ok(user);
     }
 }

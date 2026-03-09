@@ -5,5 +5,7 @@ namespace Dashboard.Repositories;
 public interface IUserRepository
 {
     Task<IEnumerable<User>> GetAll();
-    Task<User> Add(User user);
+    Task<int> AddAsync(User user);
+
+    Task<User?> GetById(Guid id);
 }
