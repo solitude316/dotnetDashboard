@@ -5,5 +5,7 @@ namespace Dashboard.Services;
 
 public interface IAccountService
 {
-    Task<Account> RegisterAsync(RegistDto account);
+    Task<Account> RegisterAsync(AccountDto account);
+
+    Task<string> LoginAsync(string email, string password);
 }

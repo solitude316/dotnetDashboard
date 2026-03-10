@@ -1,6 +1,6 @@
 namespace Dashboard.Dto;
 
-public class RegistDto
+public class AccountDto
 {
     public string email { get; set; }
 

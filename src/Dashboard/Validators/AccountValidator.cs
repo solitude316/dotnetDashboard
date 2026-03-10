@@ -3,9 +3,9 @@ using Dashboard.Dto;
 
 namespace Dashboard.Validators;
 
-public class UserRegistValidator : BaseValidator<RegistDto>
+public class AccountValidator : BaseValidator<AccountDto>
 {
-    public UserRegistValidator()
+    public AccountValidator()
     {
         RuleFor(x => x.email).NotEmpty().WithMessage("required");
         RuleFor(x => x.email).EmailAddress().WithMessage("invalid_format");

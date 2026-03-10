@@ -1,6 +1,9 @@
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Dashboard.Entities;
 
+[Table("users")]
 public class User : BaseEntity
 {
     public string? first_name { get; set; }

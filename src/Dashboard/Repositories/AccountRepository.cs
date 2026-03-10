@@ -1,8 +1,9 @@
 using System.Data;
-using Dashboard.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Dapper;
+using Dashboard.Dto;
+using Dashboard.Entities;
 
 namespace Dashboard.Repositories;
 
@@ -21,8 +22,17 @@ public class AccountRepository : AbstractRepository, IAccountRepository
         return result;
     }
 
-    public async Task<IEnumerable<Account>> SearchAsync(string keyword)
+    public async Task<Account?> SearchByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        var sql = "SELECT * FROM accounts WHERE email = @Email";
+        var result = await this._dbConnection.QueryFirstOrDefaultAsync<Account?>(sql, new { Email = email });
+        return result;
     }
+
+    // public async Task<IEnumerable<Account>> SearchAsync(UserFilterDto filter)
+    // {
+    //     Dictionary<string, object> filters = new Dictionary<string, object>();
+    //     filters["email"] = filter.Email!;
+    //     return await this.QueryAsync<Account>(filters, new Dictionary<string, string>());
+    // }
 }

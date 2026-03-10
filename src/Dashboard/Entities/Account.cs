@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Dashboard.Enums.Account;
 
 namespace Dashboard.Entities;
 
+[Table("accounts")]
 public class Account : BaseEntity
 {
     public string email { get; set; }
