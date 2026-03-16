@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6BC69071-B16
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dashboard", "src\Dashboard\dashboard.csproj", "{9CF38C18-70C4-4DF7-AA9E-A543BA207BBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Test", "src\Dashboard.Test\Dashboard.Test.csproj", "{61F99267-B639-4AD7-B696-60B7E6E0510F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{9CF38C18-70C4-4DF7-AA9E-A543BA207BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CF38C18-70C4-4DF7-AA9E-A543BA207BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CF38C18-70C4-4DF7-AA9E-A543BA207BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F99267-B639-4AD7-B696-60B7E6E0510F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F99267-B639-4AD7-B696-60B7E6E0510F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F99267-B639-4AD7-B696-60B7E6E0510F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F99267-B639-4AD7-B696-60B7E6E0510F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9CF38C18-70C4-4DF7-AA9E-A543BA207BBF} = {6BC69071-B168-4600-86BD-E19F5D270122}
+		{61F99267-B639-4AD7-B696-60B7E6E0510F} = {6BC69071-B168-4600-86BD-E19F5D270122}
 	EndGlobalSection
 EndGlobal

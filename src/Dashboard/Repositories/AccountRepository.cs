@@ -25,7 +25,7 @@ public class AccountRepository : AbstractRepository, IAccountRepository
     public async Task<Account?> SearchByEmailAsync(string email)
     {
         var sql = "SELECT * FROM accounts WHERE email = @Email";
-        var result = await this._dbConnection.QueryFirstOrDefaultAsync<Account?>(sql, new { Email = email });
+        var result = await this._dbConnection.QueryFirstAsync<Account?>(sql, new { Email = email });
         return result;
     }
 

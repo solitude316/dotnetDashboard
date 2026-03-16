@@ -9,5 +9,5 @@ public interface IAccountRepository : IAbstractRepository
     Task<int> AddAsync(Account account);
 
     // Task<IEnumerable<Account>> SearchAsync(UserFilterDto filter);
-    Task<Account> SearchByEmailAsync(string email);
+    Task<Account?> SearchByEmailAsync(string email);
 }

@@ -8,7 +8,7 @@ public class Account : BaseEntity
 {
     public string email { get; set; }
 
-    public string? password { get; set; }
+    public string password { get; set; }
 
     public AccountStatus status { get; set; }
 

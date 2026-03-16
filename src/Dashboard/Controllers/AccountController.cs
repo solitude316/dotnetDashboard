@@ -20,7 +20,7 @@ public class AccountController : ControllerBase
         _accountService = accountService;
     }
 
-    [HttpPost("register")]
+    [HttpPost("registration")]
     public async Task<IActionResult> Register([FromBody] AccountDto registInfo)
     {
         var validator = new AccountValidator();
@@ -69,7 +69,7 @@ public class AccountController : ControllerBase
 
         try
         {
-            var token = await _accountService.LoginAsync(param.email, param.password);
+            var token = await _accountService.LoginAsync(param.Email!, param.Password!);
 
             return Ok(new {
                 token = token

@@ -8,11 +8,18 @@ namespace Dashboard.Helpers;
 
 public class JWTHelper
 {
+
+    public static string GenerateToken(Dictionary<string, object> payload)
+    {
+        return "";
+    }
+
     public static string GenerateToken(string email, string signKey, string issuer)
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.Email, email)
+            new Claim(ClaimTypes.Email, email),
+            new Claim(ClaimTypes.Role, "admin")
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));

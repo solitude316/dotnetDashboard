@@ -9,6 +9,7 @@ using Dashboard.Exceptions;
 using Dashboard.Helpers;
 using Dashboard.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Configuration;
 
 namespace Dashboard.Services;
 
@@ -25,7 +26,17 @@ public class AccountService : IAccountService
 
     public async Task<Account> RegisterAsync(AccountDto account)
     {
-        var existingAccounts = await _accountRepository.SearchByEmailAsync(account.email);
+        if (account.Email == null)
+        {
+            throw new AccountException("email_is_required");
+        }
+
+        if(account.Password == null)
+        {
+            throw new AccountException("password_is_required");
+        }
+
+        var existingAccounts = await _accountRepository.SearchByEmailAsync(account.Email);
         if (existingAccounts != null)
         {
             throw new AccountException("account_exists");
@@ -34,8 +45,8 @@ public class AccountService : IAccountService
         var entity = new Account
         {
             id = Guid.NewGuid(),
-            email = account.email,
-            password = HashPassword(account.password),
+            email = account.Email,
+            password = HashPassword(account.Password),
             status = AccountStatus.Active,
             source = AccountSource.Registration
         };
@@ -56,7 +67,7 @@ public class AccountService : IAccountService
 
     public async Task<string> LoginAsync(string email, string password)
     {
-        Account account = await _accountRepository.SearchByEmailAsync(email);
+        Account? account = await _accountRepository.SearchByEmailAsync(email);
         if(account == null)
         {
             throw new AccountException("user_not_found");
@@ -67,7 +78,7 @@ public class AccountService : IAccountService
             throw new AccountException("invalid_credentials");
         }
 
-        var token = JWTHelper.GenerateToken(account.email, _configuration["JwtSettings:SignKey"], _configuration["JwtSettings:Issuer"]);
+        var token = JWTHelper.GenerateToken(account.email, _configuration["JwtSettings:SignKey"]!, _configuration["JwtSettings:Issuer"]!);
 
         return token;
     }

@@ -7,11 +7,11 @@ public class AccountValidator : BaseValidator<AccountDto>
 {
     public AccountValidator()
     {
-        RuleFor(x => x.email).NotEmpty().WithMessage("required");
-        RuleFor(x => x.email).EmailAddress().WithMessage("invalid_format");
-        RuleFor(x => x.email).MaximumLength(100).WithMessage("max_length_100");
-        RuleFor(x => x.password).NotEmpty().WithMessage("required");
-        RuleFor(x => x.password).MinimumLength(6).WithMessage("min_length_6");
-        RuleFor(x => x.password).MaximumLength(100).WithMessage("max_length_100");
+        RuleFor(x => x.Email).NotEmpty().WithMessage("required");
+        RuleFor(x => x.Email).EmailAddress().WithMessage("invalid_format");
+        RuleFor(x => x.Email).MaximumLength(100).WithMessage("max_length_100");
+        RuleFor(x => x.Password).NotEmpty().WithMessage("required");
+        RuleFor(x => x.Password).MinimumLength(6).WithMessage("min_length_6");
+        RuleFor(x => x.Password).MaximumLength(100).WithMessage("max_length_100");
     }
 }

@@ -53,7 +53,7 @@ public class AbstractRepository : IDisposable
         return Task.CompletedTask;
     }
 
-    protected async Task<IEnumerable<T>> QueryAsync<T>(Dictionary<string, object> filters, Dictionary<string, string> order)
+    protected async Task<IEnumerable<T>?> QueryAsync<T>(Dictionary<string, object> filters, Dictionary<string, string> order)
     {
         SqlBuilder builder = new SqlBuilder();
         string query = $"SELECT * FROM {typeof(T).GetType().GetProperty("Table")} /**where**/";
@@ -66,6 +66,6 @@ public class AbstractRepository : IDisposable
             dynamicParams.Add($"@{parameter.Key}", parameter.Value);
         }
         string rawSql = template.RawSql;
-        return _dbConnection.Query<T>(rawSql, dynamicParams).AsList();
+        return await _dbConnection.QueryAsync<T>(rawSql, dynamicParams);
     }
 }
