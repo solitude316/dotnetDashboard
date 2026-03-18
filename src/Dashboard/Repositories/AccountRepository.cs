@@ -29,6 +29,15 @@ public class AccountRepository : AbstractRepository, IAccountRepository
         return result;
     }
 
+    public async Task<IEnumerable<Role>> getUserRoles(Guid id)
+    {
+        var sql = @"SELECT R.* FROM account_roles AR 
+                    LEFT JOIN roles R ON R.id = AR.role_id 
+                    WHERE AR.status = @Status AND AR.account_id = @AccountId";
+        var result = await _dbConnection.QueryAsync<Role>(sql, new { Status = 1, AccountId = id });
+        return result;
+    }
+
     // public async Task<IEnumerable<Account>> SearchAsync(UserFilterDto filter)
     // {
     //     Dictionary<string, object> filters = new Dictionary<string, object>();

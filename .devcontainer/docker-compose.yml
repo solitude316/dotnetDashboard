@@ -18,10 +18,10 @@ services:
       - commonservices_backend
     environment:
       # NOTE: POSTGRES_DB/USER/PASSWORD should match values in db container
-        POSTGRES_USER: moin
-        POSTGRES_PASSWORD: sin316
-        POSTGRES_DB: pluto
-        POSTGRES_HOSTNAME: postgresdb
+      POSTGRES_USER: moin
+      POSTGRES_PASSWORD: sin316
+      POSTGRES_DB: pluto
+      POSTGRES_HOSTNAME: postgresdb
     
     # Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
     # user: root

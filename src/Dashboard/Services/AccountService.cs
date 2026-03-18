@@ -1,15 +1,16 @@
-using System.Linq.Expressions;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text; 
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Dashboard.Dto;
 using Dashboard.Entities;
 using Dashboard.Enums.Account;
 using Dashboard.Exceptions;
-using Dashboard.Helpers;
 using Dashboard.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System.Configuration;
 
 namespace Dashboard.Services;
 
@@ -47,8 +48,8 @@ public class AccountService : IAccountService
             id = Guid.NewGuid(),
             email = account.Email,
             password = HashPassword(account.Password),
-            status = AccountStatus.Active,
-            source = AccountSource.Registration
+            status = AccountStatusEnum.Active,
+            source = AccountSourceEnum.Registration
         };
 
         using (var transaction = await _accountRepository.BeginTransactionAsync()) {
@@ -78,9 +79,53 @@ public class AccountService : IAccountService
             throw new AccountException("invalid_credentials");
         }
 
-        var token = JWTHelper.GenerateToken(account.email, _configuration["JwtSettings:SignKey"]!, _configuration["JwtSettings:Issuer"]!);
+        var SignKey = _configuration["JwtSettings:SignKey"]!;
+        var issuer = _configuration["JwtSettings:Issuer"]!;
 
-        return token;
+        if(SignKey == null || issuer == null)
+        {
+            throw new Exception("undefined_jwt_singkey_or_issuer");
+        }
+
+        // TODO Role 列表須由 db 查詢。
+
+        var claimList = new List<Claim>();
+        claimList.Add(new Claim(ClaimTypes.Email, email));
+
+
+        // var claims = new[]
+        // {
+        //     new Claim(ClaimTypes.Email, email)
+        //     // new Claim(ClaimTypes.Role, "admin")
+        // };
+
+        var roles = await _accountRepository.getUserRoles(account.id);
+
+        foreach(Role role in roles)
+        {
+            claimList.Add(new Claim(ClaimTypes.Role, role.title));
+        }
+
+        int claimSize = claimList.Count();
+
+        Claim[] claims = new Claim[claimSize];
+
+        for(int index = 0; index < claimSize; index++)
+        {
+            claims[index] = claimList[index];
+        }
+
+        // TOD audience 需要修改。
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SignKey));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: issuer,
+            claims: claims,
+            expires: DateTime.Now.AddHours(1),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     private string HashPassword(string password)

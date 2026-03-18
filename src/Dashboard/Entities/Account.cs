@@ -6,13 +6,13 @@ namespace Dashboard.Entities;
 [Table("accounts")]
 public class Account : BaseEntity
 {
-    public string email { get; set; }
+    public string email { get; set; } = "";
 
-    public string password { get; set; }
+    public string password { get; set; } = "";
 
-    public AccountStatus status { get; set; }
+    public AccountStatusEnum status { get; set; } = AccountStatusEnum.Undefined;
 
     public DateTime last_login { get; set; }
 
-    public AccountSource source { get; set; }
+    public AccountSourceEnum source { get; set; } = AccountSourceEnum.Undefined;
 }

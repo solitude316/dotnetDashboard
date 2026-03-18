@@ -29,7 +29,7 @@ public class AccountServiceTest
         //         password = Convert.ToBase64String(hash),
         //         status = Dashboard.Enums.Account.AccountStatus.Active,
         //         last_login = DateTime.Now,
-        //         source = Dashboard.Enums.Account.AccountSource.Registration,
+        //         source = Dashboard.Enums.Account.AccountSourceEnum.Registration,
         //         created_at = DateTime.Now,
         //         updated_at = DateTime.Now
         //     });

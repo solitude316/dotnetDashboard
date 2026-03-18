@@ -1,6 +1,7 @@
-using Dashboard.Entities;
+using System;
 using System.Data;
 using Dashboard.Dto;
+using Dashboard.Entities;
 
 namespace Dashboard.Repositories;
 
@@ -10,4 +11,6 @@ public interface IAccountRepository : IAbstractRepository
 
     // Task<IEnumerable<Account>> SearchAsync(UserFilterDto filter);
     Task<Account?> SearchByEmailAsync(string email);
+
+    Task<IEnumerable<Role>> getUserRoles(Guid id);
 }

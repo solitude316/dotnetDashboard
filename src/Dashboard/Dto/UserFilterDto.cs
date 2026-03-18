@@ -9,5 +9,5 @@ public class UserFilterDto
     public GenderEnum? Gender { get; set; }
     public DateOnly? Birthday { get; set; }
     public string? Email { get; set; }
-    public AccountStatus account_status { get; set; }
+    public AccountStatusEnum? account_status { get; set; }
 }
