@@ -12,5 +12,5 @@ public interface IAccountRepository : IAbstractRepository
     // Task<IEnumerable<Account>> SearchAsync(UserFilterDto filter);
     Task<Account?> SearchByEmailAsync(string email);
 
-    Task<IEnumerable<Role>> getUserRoles(Guid id);
+    Task<IEnumerable<Role>> getUserRolesAsync(Guid id);
 }

@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Configuration;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text; 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Dashboard.Dto;
 using Dashboard.Entities;
 using Dashboard.Enums.Account;
 using Dashboard.Exceptions;
 using Dashboard.Repositories;
+using Dashboard.Services.JWT;
 
 namespace Dashboard.Services;
 
@@ -87,45 +86,28 @@ public class AccountService : IAccountService
             throw new Exception("undefined_jwt_singkey_or_issuer");
         }
 
-        // TODO Role 列表須由 db 查詢。
+        var roles = await _accountRepository.getUserRolesAsync(account.id);
 
-        var claimList = new List<Claim>();
-        claimList.Add(new Claim(ClaimTypes.Email, email));
+        // V1 使用 HMACSHA256;
+        IJWTService jwtService = new HMACSHA256Service(_configuration);
 
+        // V2 使用 JWT + RSA 加密
+        // IJWTService jwtService = new RS256Service(_configuration);
+        var tokenParams = new Dictionary<String, object>();
 
-        // var claims = new[]
-        // {
-        //     new Claim(ClaimTypes.Email, email)
-        //     // new Claim(ClaimTypes.Role, "admin")
-        // };
-
-        var roles = await _accountRepository.getUserRoles(account.id);
+        tokenParams.Add("issuer", issuer);
+        tokenParams.Add(ClaimTypes.Email, account.email);
+        tokenParams.Add("Audience", account.email);
+        tokenParams.Add("exp", DateTimeOffset.UtcNow.AddMonths(1).ToUnixTimeSeconds());
 
         foreach(Role role in roles)
         {
-            claimList.Add(new Claim(ClaimTypes.Role, role.title));
+            tokenParams.Add(ClaimTypes.Role, role.code);
         }
 
-        int claimSize = claimList.Count();
-
-        Claim[] claims = new Claim[claimSize];
-
-        for(int index = 0; index < claimSize; index++)
-        {
-            claims[index] = claimList[index];
-        }
-
-        // TOD audience 需要修改。
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SignKey));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(
-            issuer: issuer,
-            audience: issuer,
-            claims: claims,
-            expires: DateTime.Now.AddHours(1),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        String token = jwtService.Generate(tokenParams);
+        
+        return token;
     }
 
     private string HashPassword(string password)

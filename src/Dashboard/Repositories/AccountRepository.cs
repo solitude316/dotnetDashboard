@@ -29,7 +29,7 @@ public class AccountRepository : AbstractRepository, IAccountRepository
         return result;
     }
 
-    public async Task<IEnumerable<Role>> getUserRoles(Guid id)
+    public async Task<IEnumerable<Role>> getUserRolesAsync(Guid id)
     {
         var sql = @"SELECT R.* FROM account_roles AR 
                     LEFT JOIN roles R ON R.id = AR.role_id 

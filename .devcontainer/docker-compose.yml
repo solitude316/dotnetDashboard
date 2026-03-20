@@ -8,6 +8,7 @@ services:
 
     volumes:
       - ../..:/workspaces:cached
+      - ../certs:/usr/local/share/ca-certificates/dashboard
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
@@ -22,7 +23,8 @@ services:
       POSTGRES_PASSWORD: sin316
       POSTGRES_DB: pluto
       POSTGRES_HOSTNAME: postgresdb
-    
+      RSA_PUBLIC_KEY_PATH: "/usr/local/share/ca-certificates/dashboard/rsa-public-key.pem"
+      RSA_PRIVATE_KEY_PATH: "/usr/local/share/ca-certificates/dashboard/rsa-private-key.pem"
     # Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
     # user: root
 
